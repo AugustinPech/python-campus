@@ -1,9 +1,12 @@
 def fizz_buzz(n):
+    s=""
     if n % 3 == 0:
-        return "Fizz"
+        s += "Fizz"
     if n % 5 == 0:
-        return "Buzz"
-    return str(n)
+        s += "Buzz"
+    if s == "":
+        s = str(n)
+    return s
 
 def leap_year(year):
     if year % 100 == 0 and year % 400 != 0:
