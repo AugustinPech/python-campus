@@ -1,33 +1,36 @@
-from bottle import route, run, template, error
-import mariadb
-import identifier.identify as ident
-
-co = mariadb.connect(
-    user= ident.user(),
-    password=ident.password(),
-    host='localhost',
-    port=3306,
-    database='todoList'
-    )
-co.execute("CREATE TABLE todo (id INTEGER PRIMARY KEY, task char(100) NOT NULL, status bool NOT NULL)")
-co.execute("INSERT INTO todo (task,status) VALUES ('Read A-byte-of-python to get a good introduction into Python',0)")
-co.execute("INSERT INTO todo (task,status) VALUES ('Visit the Python website',1)")
-co.execute("INSERT INTO todo (task,status) VALUES ('Test various editors for and check the syntax highlighting',1)")
-co.execute("INSERT INTO todo (task,status) VALUES ('Choose your favorite WSGI-Framework',0)")
-co.commit()
-
+from bottle import route, run, template, error, static_file
+import setup as setup
 @route('/todo')
-def get():
-    return 'this should display the list of items'
-@route('/new')
-def post():
-    return 'this should display a form to add a new item'
-@route('/edit/<id>')
-def put(id ='0'):
-    return template('this should show the item of id : {{id}}', id=id)
+def todo_list():
+    return setup.todo_list()
+
+@route('/new', method='GET') # http://localhost:8080/new?task=newTask
+def new_item():
+    return setup.new_item()
+
+
+@route('/edit/<no:int>', method = 'GET')
+def edit_item(no):
+    return setup.edit_item(no)
+
+@route('/item<item:re:[0-9]+>')
+def show_item(item):
+    return setup.show_item(item)
+
+@route('/help')
+def help():
+    return static_file('help.html', root='/home/augustin/Desktop/python_campus/bottle_exercice')
+
+@route('/json<json:re:[0-9]+>')
+def show_json(json):
+    return setup.show_json(json)
+
+@error(403)
+def mistake403(code):
+    return 'The parameter you passed has the wrong format!'
 
 @error(404)
-def error404(error):
-    return 'Nothing here, sorry'
+def mistake404(code):
+    return 'Sorry, this page does not exist!'
 
-run(host='localhost', port=8080)
+run(host='localhost', port=8080,reloader=True)
