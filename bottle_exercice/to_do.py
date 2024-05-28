@@ -1,10 +1,10 @@
 from bottle import route, run, template, error
 import mariadb
-import identifier.identify as ide
+import identifier.identify as ident
 
 co = mariadb.connect(
-    user= ide.user(),
-    password=ide.password(),
+    user= ident.user(),
+    password=ident.password(),
     host='localhost',
     port=3306,
     database='todoList'
