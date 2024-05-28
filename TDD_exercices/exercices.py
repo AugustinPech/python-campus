@@ -16,6 +16,14 @@ def leap_year(year):
     else : 
         return False
 
+def diamond_line(i, index, letters):
+    diamond = ""
+    if i==0 :
+        diamond += " " * index + letters[i]
+    else :
+        diamond += " " * (index - i) + letters[i] + " " * (2*i-1) +  letters[i]
+    return diamond
+
 def diamond(letter) :
     letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     index = letters.index(letter)
@@ -24,19 +32,12 @@ def diamond(letter) :
         return "A"
 # forth
     for i in range(index + 1) :
-        if i==0 :
-            diamond += " " * (index - i) + letters[i]
-        else :
-            diamond += " " * (index - i) + letters[i] + " " * (2*i-1) +  letters[i]
+        diamond += diamond_line(i, index, letters)
         diamond+= "\n"
 # back
     for i in range(index -1, -1,-1) :
-        if i==-1 :
-            diamond += " " * (index - i) + letters[i]
-        elif i==0 :
-            diamond += " " * (index - i) + letters[i] 
-        else :
-            diamond += " " * (index - i) + letters[i] + " " * (2*i-1)+ letters[i] +"\n"
+        diamond += diamond_line(i, index, letters)
+        if i!=0 :
+            diamond+= "\n"
 
     return diamond
-    
