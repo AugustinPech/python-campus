@@ -1,2 +1,3 @@
-bottle_exercice/identifier
+bottle_exercice/controllers/identifier
+bottle_exercice/controllers/identifier/*
 ./.vscode/*

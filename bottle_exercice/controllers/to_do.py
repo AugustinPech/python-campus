@@ -5,6 +5,7 @@ import os
 abs_views_path= os.path.join(os.getcwd(), 'bottle_exercice')
 abs_views_path= os.path.join(abs_views_path,'views')
 setup.setupDB(setup.connect())
+
 @route('/todo')
 def todo_list():
     return setup.todo_list(setup.connect())
